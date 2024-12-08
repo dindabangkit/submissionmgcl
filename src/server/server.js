@@ -1,18 +1,19 @@
-require("dotenv").config();
+require("dotenv").config(); //memuat variabel dari .env
 const Hapi = require("@hapi/hapi");
-const express = require('express');
 const routes = require("../server/routes");
-const loadModel = require("../services/loadModel");
+const loadModel = require("../services/modelService");
 const InputError = require("../exceptions/InputError");
- 
+
+//membuat dan menjalankan server hapi
 (async () => {
 	const server = Hapi.server({
-		port: process.env.APP_PORT || 3000,
-		host: process.env.APP_HOST || "0.0.0.0",
+		port: process.env.APP_PORT || 8080,
+		host: process.env.APP_HOST || "localhost",
 		routes: {
 			cors: {
 				origin: ["*"],
 			},
+			//mengatur ukuran max payload yang dapat diterima
 			payload: {
 				maxBytes: 1 * 1024 * 1024,
 			},
@@ -23,7 +24,7 @@ const InputError = require("../exceptions/InputError");
 	server.app.model = model;
 
 	server.route(routes);
-
+	//menangani respon
 	server.ext("onPreResponse", function (request, h) {
         const response = request.response;
         

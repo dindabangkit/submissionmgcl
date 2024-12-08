@@ -1,5 +1,3 @@
-/** @format */
-
 const { Firestore } = require("@google-cloud/firestore");
 
 function modelData(doc) {
@@ -22,7 +20,6 @@ async function database() {
 }
 
 async function storeData(id, data) {
-	const db = new Firestore();
 	const predictCollection = (await database()).collection("predictions");
 	return predictCollection.doc(id).set(data);
 }

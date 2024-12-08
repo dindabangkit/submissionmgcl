@@ -1,5 +1,5 @@
 const predictClassification = require("../services/inferenceService");
-const { storeData, getData } = require("../services/storeData");
+const { storeData, getData } = require("../services/firestoreService");
 const crypto = require("crypto");
 
 async function postPredictHandler(request, h) {
@@ -11,12 +11,11 @@ async function postPredictHandler(request, h) {
 	const createdAt = new Date().toISOString();
 
 	const data = {
-		"id": id,
-		"result": label,
-		"explanation": explanation,
-		"suggestion": suggestion,
-		"confidenceScore": confidenceScore,
-		"createdAt": createdAt
+		id: id,
+		result: label,
+		suggestion: suggestion,
+		confidenceScore: confidenceScore,
+		createdAt: createdAt,
 	};
 
 	await storeData(id, data);
